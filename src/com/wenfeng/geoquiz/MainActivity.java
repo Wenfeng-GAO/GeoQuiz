@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,8 @@ public class MainActivity extends Activity {
 	};
 	
 	TextView mQuestionTextView;
-	Button mYesButton, mNoButton, mNextButton;
+	Button mYesButton, mNoButton;
+	ImageButton buttonForward, buttonBackward;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +33,13 @@ public class MainActivity extends Activity {
 		mQuestionTextView = (TextView) findViewById(R.id.textView_question);
 		mYesButton = (Button) findViewById(R.id.button_yes);
 		mNoButton = (Button) findViewById(R.id.button_no);
-		mNextButton = (Button) findViewById(R.id.button_next);
+		buttonForward = (ImageButton) findViewById(R.id.image_button_forward);
+		buttonBackward = (ImageButton) findViewById(R.id.image_button_backward);
 		
 		mYesButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-//				Toast.makeText(MainActivity.this, R.string.toastIncorrect, Toast.LENGTH_SHORT).show();
 				answerQuestion(true);
 			}
 		});
@@ -46,16 +48,23 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-//				Toast.makeText(MainActivity.this, R.string.toastCorrect, Toast.LENGTH_SHORT).show();
 				answerQuestion(false);
 			}
 		});
 		
-		mNextButton.setOnClickListener(new OnClickListener() {
+		buttonForward.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				updateQuestion();
+				updateQuestion(v.getId());
+			}
+		});
+		
+		buttonBackward.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				updateQuestion(v.getId());
 			}
 		});
 		
@@ -72,6 +81,18 @@ public class MainActivity extends Activity {
 	private void updateQuestion() {
 		questionIndex = (questionIndex+1) % questions.length;
 		mQuestionTextView.setText(questions[questionIndex].getQuestion());
+	}
+	
+	private void updateQuestion(int buttonId) {
+		switch(buttonId) {
+		case R.id.image_button_forward:
+			updateQuestion();
+			break;
+		case R.id.image_button_backward:
+			questionIndex = (questionIndex+questions.length-1) % questions.length;
+			mQuestionTextView.setText(questions[questionIndex].getQuestion());
+			break;
+		}
 	}
 
 	@Override

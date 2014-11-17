@@ -13,6 +13,8 @@
     <string name="buttonNext">NEXT</string>
     <string name="toastCorrect">Correct!</string>
     <string name="toastIncorrect">Incorrect!</string>
+    <string name="image_button_description_forward">NEXT</string>
+    <string name="image_button_description_back">BACK</string>
     
 
 </resources>
