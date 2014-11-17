@@ -1,0 +1,54 @@
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+     <TextView 
+        android:id="@+id/textView_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal" />
+     <LinearLayout 
+         android:orientation="horizontal"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_vertical|center_horizontal" >
+         
+        <Button 
+        android:id="@+id/button_yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#cff"
+        android:text="@string/buttonYes" />
+    
+    	<Button 
+        android:id="@+id/button_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#cff"
+        android:text="@string/buttonNo" />
+     </LinearLayout>
+     
+     <ImageButton
+        android:id="@+id/image_button_backward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="bottom|left"
+        android:src="@drawable/ic_action_back"
+        android:background="#cff"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/image_button_description_back" />
+
+    <ImageButton
+        android:id="@+id/image_button_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/image_button_description_forward"
+        android:background="#cff"
+        android:src="@drawable/ic_action_forward" />
+     
+</FrameLayout>

@@ -2,6 +2,7 @@ package com.wenfeng.geoquiz;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +29,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
+		
+		if(savedInstanceState != null)
+			Log.d(TAG, "savedInstanceState is not null");
+		else
+			Log.d(TAG, "savedInstanceState is null");
+		
 		setContentView(R.layout.activity_main);
 		
 		mQuestionTextView = (TextView) findViewById(R.id.textView_question);
@@ -68,9 +76,51 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		updateQuestion();
+//		updateQuestion();
+		mQuestionTextView.setText(questions[questionIndex].getQuestion());
 	}
-	
+
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, "onDestroy");
+	}
+
+
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.d(TAG, "onPause");
+	}
+
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d(TAG, "onResume");
+	}
+
+
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.d(TAG, "onStart");
+	}
+
+
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.d(TAG, "onStop");
+	}
+
+
+
 	private void answerQuestion(boolean myAnswer) {
 		if(questions[questionIndex].isCorrect() == myAnswer)
 			Toast.makeText(MainActivity.this, R.string.toastCorrect, Toast.LENGTH_SHORT).show();
