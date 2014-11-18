@@ -12,8 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	public static final String TAG = MainActivity.class.getSimpleName();
-	private static int questionIndex = 0;
+	private static final String TAG = MainActivity.class.getSimpleName();
+	private static final String KEY_QUESTION_INDEX = "index";
+	
+	private int questionIndex = 0;
 	private QuestionBank[] questions = {
 			new QuestionBank(R.string.question_ocean, true),
 			new QuestionBank(R.string.question_africa, false),
@@ -22,20 +24,23 @@ public class MainActivity extends Activity {
 			new QuestionBank(R.string.question_mideast, false)
 	};
 	
-	TextView mQuestionTextView;
-	Button mYesButton, mNoButton;
-	ImageButton buttonForward, buttonBackward;
+	private TextView mQuestionTextView;
+	private Button mYesButton, mNoButton;
+	private ImageButton buttonForward, buttonBackward;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		Log.d(TAG, "onCreate");
 		
-		if(savedInstanceState != null)
+		if(savedInstanceState != null) {
 			Log.d(TAG, "savedInstanceState is not null");
-		else
+			questionIndex = savedInstanceState.getInt(KEY_QUESTION_INDEX, 0);
+		} else {
 			Log.d(TAG, "savedInstanceState is null");
-		
+		}
+		  	 
 		setContentView(R.layout.activity_main);
 		
 		mQuestionTextView = (TextView) findViewById(R.id.textView_question);
@@ -150,6 +155,14 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Log.d(TAG, "onSaveInstanceState");
+		outState.putInt(KEY_QUESTION_INDEX, questionIndex);
 	}
 
 }

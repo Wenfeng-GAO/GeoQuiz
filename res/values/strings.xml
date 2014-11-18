@@ -10,7 +10,6 @@
     <string name="question_asia">Lake Bakal is the world\'s oldest and deepest freshwater lake?</string>
     <string name="buttonYes">YES</string>
     <string name="buttonNo">NO</string>
-    <string name="buttonNext">NEXT</string>
     <string name="toastCorrect">Correct!</string>
     <string name="toastIncorrect">Incorrect!</string>
     <string name="image_button_description_forward">NEXT</string>
