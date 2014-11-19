@@ -12,7 +12,8 @@
          android:orientation="horizontal"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_gravity="center_vertical|center_horizontal" >
+         android:layout_marginTop="60dp"
+         android:layout_gravity="center_horizontal" >
          
         <Button 
         android:id="@+id/button_yes"
@@ -50,5 +51,14 @@
         android:contentDescription="@string/image_button_description_forward"
         android:background="#cff"
         android:src="@drawable/ic_action_forward" />
+    
+    <Button 
+        android:id="@+id/button_show_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="#cff"
+        android:text="@string/button_show_answer"
+        android:layout_marginBottom="10dp" />
      
 </FrameLayout>

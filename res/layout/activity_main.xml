@@ -55,5 +55,14 @@
         android:background="#cff"
         android:contentDescription="@string/image_button_description_forward"
         android:src="@drawable/ic_action_forward" />
+   
+    <Button 
+        android:id="@+id/button_show_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#cff"
+        android:text="@string/button_show_answer"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/image_button_backward" />
 
 </RelativeLayout>

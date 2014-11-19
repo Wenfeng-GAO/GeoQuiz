@@ -14,6 +14,9 @@
     <string name="toastIncorrect">Incorrect!</string>
     <string name="image_button_description_forward">NEXT</string>
     <string name="image_button_description_back">BACK</string>
-    
+    <string name="title_activity_cheat">You are cheating!</string>
+    <string name="textview_cheat_warning">Cheating is wrong! You really want to do this?</string>
+    <string name="toast_cheat">Cheating is wrong!</string>
+    <string name="button_show_answer">Show Answer</string>
 
 </resources>

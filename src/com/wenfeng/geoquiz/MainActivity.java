@@ -1,6 +1,7 @@
 package com.wenfeng.geoquiz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,8 @@ public class MainActivity extends Activity {
 	private static final String KEY_QUESTION_INDEX = "index";
 	
 	private int questionIndex = 0;
+	private boolean isCheat = false;
+	
 	private QuestionBank[] questions = {
 			new QuestionBank(R.string.question_ocean, true),
 			new QuestionBank(R.string.question_africa, false),
@@ -27,6 +30,7 @@ public class MainActivity extends Activity {
 	private TextView mQuestionTextView;
 	private Button mYesButton, mNoButton;
 	private ImageButton buttonForward, buttonBackward;
+	private Button buttonShowAnswer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class MainActivity extends Activity {
 		mQuestionTextView = (TextView) findViewById(R.id.textView_question);
 		mYesButton = (Button) findViewById(R.id.button_yes);
 		mNoButton = (Button) findViewById(R.id.button_no);
+		buttonShowAnswer = (Button) findViewById(R.id.button_show_answer);
 		buttonForward = (ImageButton) findViewById(R.id.image_button_forward);
 		buttonBackward = (ImageButton) findViewById(R.id.image_button_backward);
 		
@@ -81,8 +86,28 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-//		updateQuestion();
+		buttonShowAnswer.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), CheatActivity.class);
+				intent.putExtra(CheatActivity.KEY_INTENT_EXTRA_CHEAT, questions[questionIndex].isCorrect());
+//				startActivity(intent);
+				startActivityForResult(intent, 0);
+				Log.d(TAG, "after startActivity");
+			}
+		});
+		
 		mQuestionTextView.setText(questions[questionIndex].getQuestion());
+	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == RESULT_OK) {
+			isCheat = true;
+		}
 	}
 
 
@@ -127,14 +152,19 @@ public class MainActivity extends Activity {
 
 
 	private void answerQuestion(boolean myAnswer) {
-		if(questions[questionIndex].isCorrect() == myAnswer)
-			Toast.makeText(MainActivity.this, R.string.toastCorrect, Toast.LENGTH_SHORT).show();
-		else
-			Toast.makeText(MainActivity.this, R.string.toastIncorrect, Toast.LENGTH_SHORT).show();
+		if(isCheat) {
+			Toast.makeText(getApplicationContext(), R.string.toast_cheat, Toast.LENGTH_SHORT).show();
+		} else {
+			if(questions[questionIndex].isCorrect() == myAnswer)
+				Toast.makeText(MainActivity.this, R.string.toastCorrect, Toast.LENGTH_SHORT).show();
+			else
+				Toast.makeText(MainActivity.this, R.string.toastIncorrect, Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	private void updateQuestion() {
 		questionIndex = (questionIndex+1) % questions.length;
+		isCheat = false;
 		mQuestionTextView.setText(questions[questionIndex].getQuestion());
 	}
 	
