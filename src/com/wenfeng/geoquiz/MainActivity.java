@@ -92,7 +92,6 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), CheatActivity.class);
 				intent.putExtra(CheatActivity.KEY_INTENT_EXTRA_CHEAT, questions[questionIndex].isCorrect());
-//				startActivity(intent);
 				startActivityForResult(intent, 0);
 				Log.d(TAG, "after startActivity");
 			}
@@ -107,7 +106,12 @@ public class MainActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode == RESULT_OK) {
 			isCheat = true;
+			Log.d(TAG, "isCheat = " + isCheat);
 		}
+//		if(data != null) {
+//			isCheat = true;
+//			Log.d(TAG, "message:" + data.getStringExtra("key"));
+//		}
 	}
 
 
