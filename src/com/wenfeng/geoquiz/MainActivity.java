@@ -1,7 +1,11 @@
 package com.wenfeng.geoquiz;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,9 +21,8 @@ public class MainActivity extends Activity {
 	private static final String KEY_QUESTION_INDEX = "index";
 	
 	private int questionIndex = 0;
-	private boolean isCheat = false;
 	
-	private QuestionBank[] questions = {
+	private static QuestionBank[] questions = {
 			new QuestionBank(R.string.question_ocean, true),
 			new QuestionBank(R.string.question_africa, false),
 			new QuestionBank(R.string.question_american, false),
@@ -32,21 +35,21 @@ public class MainActivity extends Activity {
 	private ImageButton buttonForward, buttonBackward;
 	private Button buttonShowAnswer;
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Log.d(TAG, "onCreate");
-		
 		if(savedInstanceState != null) {
-			Log.d(TAG, "savedInstanceState is not null");
 			questionIndex = savedInstanceState.getInt(KEY_QUESTION_INDEX, 0);
-		} else {
-			Log.d(TAG, "savedInstanceState is null");
 		}
 		  	 
 		setContentView(R.layout.activity_main);
 		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			ActionBar actionBar = getActionBar();
+			actionBar.setSubtitle("Bodies of Water");
+		}
 		mQuestionTextView = (TextView) findViewById(R.id.textView_question);
 		mYesButton = (Button) findViewById(R.id.button_yes);
 		mNoButton = (Button) findViewById(R.id.button_no);
@@ -105,13 +108,8 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode == RESULT_OK) {
-			isCheat = true;
-			Log.d(TAG, "isCheat = " + isCheat);
+			questions[questionIndex].setCheated(true);
 		}
-//		if(data != null) {
-//			isCheat = true;
-//			Log.d(TAG, "message:" + data.getStringExtra("key"));
-//		}
 	}
 
 
@@ -156,7 +154,7 @@ public class MainActivity extends Activity {
 
 
 	private void answerQuestion(boolean myAnswer) {
-		if(isCheat) {
+		if(questions[questionIndex].isCheated()) {
 			Toast.makeText(getApplicationContext(), R.string.toast_cheat, Toast.LENGTH_SHORT).show();
 		} else {
 			if(questions[questionIndex].isCorrect() == myAnswer)
@@ -166,22 +164,13 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-	private void updateQuestion() {
-		questionIndex = (questionIndex+1) % questions.length;
-		isCheat = false;
-		mQuestionTextView.setText(questions[questionIndex].getQuestion());
-	}
-	
 	private void updateQuestion(int buttonId) {
-		switch(buttonId) {
-		case R.id.image_button_forward:
-			updateQuestion();
-			break;
-		case R.id.image_button_backward:
-			questionIndex = (questionIndex+questions.length-1) % questions.length;
-			mQuestionTextView.setText(questions[questionIndex].getQuestion());
-			break;
+		if(buttonId == R.id.image_button_forward) {
+			questionIndex = (questionIndex+1) % questions.length;
+		} else {
+			questionIndex = (questionIndex-1+questions.length) % questions.length;
 		}
+		mQuestionTextView.setText(questions[questionIndex].getQuestion());
 	}
 
 	@Override
